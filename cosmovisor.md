@@ -26,39 +26,48 @@
 
 
 ### 🚧Update
+```
 sudo apt -q update
 sudo apt -qy install curl git jq lz4 build-essential
 sudo apt -qy upgrade
-
+```
 ### 🚧Go
+```
 sudo rm -rf /usr/local/go
 curl -Ls https://go.dev/dl/go1.19.12.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
 eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
 eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
-
+```
 
 ### 🚧Dosyaları çekıyoruz
+```
 cd $HOME
 rm -rf source
 git clone https://github.com/Source-Protocol-Cosmos/source.git
 cd source
 git checkout v3.0.0
+```
+```
 make build
-
+```
 ### 🚧Cosmovisor ayarlıyoruz
+```
 mkdir -p $HOME/.source/cosmovisor/genesis/bin
 mv bin/sourced $HOME/.source/cosmovisor/genesis/bin/
 rm -rf build
-
+```
 ### 🚧Sistem kısayolları
+```
 sudo ln -s $HOME/.source/cosmovisor/genesis $HOME/.source/cosmovisor/current -f
 sudo ln -s $HOME/.source/cosmovisor/current/bin/sourced /usr/local/bin/sourced -f
-
+```
 
 ### 🚧Cosmovisor kuruyoruz
+```
 go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
-
+```
 ### 🚧Servis olusturuyoruz
+```
 sudo tee /etc/systemd/system/source.service > /dev/null << EOF
 [Unit]
 Description=source node service
@@ -80,21 +89,25 @@ WantedBy=multi-user.target
 EOF
 sudo systemctl daemon-reload
 sudo systemctl enable source.service
-
+```
 
 ### 🚧Node ayarları
+```
 sourced config chain-id source-1
 sourced config keyring-backend file
 sourced config node tcp://localhost:12857
-
+```
 ### 🚧Node kuruyoruz
+```
 sourced init node-adınız --chain-id source-1
-
+```
 ### 🚧indiriyoruz genesis ved addrbook
+```
 curl -Ls https://snapshots.kjnodes.com/source/genesis.json > $HOME/.source/config/genesis.json
 curl -Ls https://snapshots.kjnodes.com/source/addrbook.json > $HOME/.source/config/addrbook.json
-
+```
 ### 🚧Seed gas puring ayarları
+```
 sed -i -e "s|^seeds *=.*|seeds = \"400f3d9e30b69e78a7fb891f60d76fa3c73f0ecc@source.rpc.kjnodes.com:12859\"|" $HOME/.source/config/config.toml
 
 
@@ -107,14 +120,18 @@ sed -i \
   -e 's|^pruning-keep-every *=.*|pruning-keep-every = "0"|' \
   -e 's|^pruning-interval *=.*|pruning-interval = "19"|' \
   $HOME/.source/config/app.toml
-
+```
 ### 🚧Port değiştiriyoruz
+```
 sed -i -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:12858\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:12857\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:12860\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:12856\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":12866\"%" $HOME/.source/config/config.toml
 sed -i -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:12817\"%; s%^address = \":8080\"%address = \":12880\"%; s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:12890\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:12891\"%; s%:8545%:12845%; s%:8546%:12846%; s%:6065%:12865%" $HOME/.source/config/app.toml
-
+```
 ### 🚧Snap
+```
 curl -L https://snapshots.kjnodes.com/source/snapshot_latest.tar.lz4 | tar -Ilz4 -xf - -C $HOME/.source
 [[ -f $HOME/.source/data/upgrade-info.json ]] && cp $HOME/.source/data/upgrade-info.json $HOME/.source/cosmovisor/genesis/upgrade-info.json
-
+```
 ### 🚧Başlatıyoruz...
+```
 sudo systemctl start source.service && sudo journalctl -u source.service -f --no-hostname -o cat
+```
