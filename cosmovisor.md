@@ -103,8 +103,8 @@ sourced init node-adınız --chain-id source-1
 ```
 ### 🚧indiriyoruz genesis ved addrbook
 ```
-curl -Ls https://snapshots.kjnodes.com/source/genesis.json > $HOME/.source/config/genesis.json
-curl -Ls https://snapshots.kjnodes.com/source/addrbook.json > $HOME/.source/config/addrbook.json
+curl -Ls http://37.120.189.81/source_mainnet/genesis.json > $HOME/.source/config/genesis.json
+curl -Ls http://37.120.189.81/source_mainnet/addrbook.json > $HOME/.source/config/addrbook.json
 ```
 ### 🚧Seed gas puring ayarları
 ```
@@ -128,7 +128,7 @@ sed -i -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:12817\"
 ```
 ### 🚧Snap
 ```
-curl -L https://snapshots.kjnodes.com/source/snapshot_latest.tar.lz4 | tar -Ilz4 -xf - -C $HOME/.source
+curl -L http://37.120.189.81/source_mainnet/source_snap.tar.lz4 | tar -Ilz4 -xf - -C $HOME/.source
 [[ -f $HOME/.source/data/upgrade-info.json ]] && cp $HOME/.source/data/upgrade-info.json $HOME/.source/cosmovisor/genesis/upgrade-info.json
 ```
 ### 🚧Başlatıyoruz...
