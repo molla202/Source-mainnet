@@ -68,7 +68,7 @@ go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
 ```
 ### 🚧Servis olusturuyoruz
 ```
-sudo tee /etc/systemd/system/source.service > /dev/null << EOF
+sudo tee /etc/systemd/system/sourced.service > /dev/null << EOF
 [Unit]
 Description=source node service
 After=network-online.target
@@ -88,7 +88,7 @@ Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/
 WantedBy=multi-user.target
 EOF
 sudo systemctl daemon-reload
-sudo systemctl enable source.service
+sudo systemctl enable sourced.service
 ```
 
 ### 🚧Node ayarları
@@ -133,5 +133,5 @@ curl -L http://37.120.189.81/source_mainnet/source_snap.tar.lz4 | tar -Ilz4 -xf 
 ```
 ### 🚧Başlatıyoruz...
 ```
-sudo systemctl start source.service && sudo journalctl -u source.service -f --no-hostname -o cat
+sudo systemctl restart sourced.service && sudo journalctl -u sourced.service -f --no-hostname -o cat
 ```
