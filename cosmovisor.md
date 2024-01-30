@@ -45,7 +45,7 @@ cd $HOME
 rm -rf source
 git clone https://github.com/Source-Protocol-Cosmos/source.git
 cd source
-git checkout v3.0.0
+git checkout v3.0.1
 ```
 ```
 make build
