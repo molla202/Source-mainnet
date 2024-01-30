@@ -16,3 +16,22 @@
 💬 [Gökhan Molla Telegram](https://t.me/gokhan_molla)
 
 💬 Sorularınız için yukarıdaki adreslerden ulaşabilirsiniz.
+
+
+## Daily Snapshot
+
+```
+sudo apt install liblz4-tool
+
+systemctl stop sourced
+
+cp $HOME/.source/data/priv_validator_state.json $HOME/.source/priv_validator_state.json.backup
+
+sourced tendermint unsafe-reset-all --home $HOME/.source --keep-addr-book
+
+curl -L http://37.120.189.81/source_mainnet/source_snap.tar.lz4 | tar -I lz4 -xf - -C $HOME/.source
+
+mv $HOME/.source/priv_validator_state.json.backup $HOME/.source/data/priv_validator_state.json
+
+sudo systemctl restart sourced && sudo journalctl -u sourced -fo cat
+```
