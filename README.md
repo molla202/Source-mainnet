@@ -61,7 +61,7 @@ cd $HOME
 rm -rf source
 git clone https://github.com/Source-Protocol-Cosmos/source.git
 cd source
-git checkout v3.0.0
+git checkout v3.0.1
 make install
 ```
 ### 🚧 Ağı başlatalım
@@ -74,8 +74,8 @@ sourced init "test" --chain-id source-1
 ```
 ### 🚧Genesis ve adressbook
 ```
-wget -O $HOME/.source/config/genesis.json https://mainnet-files.itrocket.net/source/genesis.json
-wget -O $HOME/.source/config/addrbook.json https://mainnet-files.itrocket.net/source/addrbook.json
+wget -O $HOME/.source/config/genesis.json http://37.120.189.81/source_mainnet/genesis.json
+wget -O $HOME/.source/config/addrbook.json http://37.120.189.81/source_mainnet/addrbook.json
 ```
 ### 🚧 Seeds ve peer ayarları
 ```
