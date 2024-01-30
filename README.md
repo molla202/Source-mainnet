@@ -133,8 +133,8 @@ EOF
 ### 🚧 Snap atalım
 ```
 sourced tendermint unsafe-reset-all --home $HOME/.source
-if curl -s --head curl https://mainnet-files.itrocket.net/source/snap_source.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://mainnet-files.itrocket.net/source/snap_source.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.source
+if curl -s --head curl curl -L http://37.120.189.81/source_mainnet/source_snap.tar.lz4 | tar -I lz4 -xf - -C $HOME/.artelad | head -n 1 | grep "200" > /dev/null; then
+  curl http://37.120.189.81/source_mainnet/source_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.source
     else
   echo no have snap
 fi
